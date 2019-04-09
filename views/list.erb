@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>Favorite Restaurant</title>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    </head>
+    <body>
+        <h2>検索結果</h2>
+        <table>
+                <% @response_stores.each do |response_store| %>
+                    <tr>
+                        <td><input class = "rest_radio" type = "radio" name = "rest"></td>
+                        <td class="name"><a href="<%= response_store["url"] %>"><%= response_store["name"] %></a></td>
+                        <td><img src="<%= response_store["image_url"]["shop_image1"] %>" height="100px" width="100px"></td>
+                    </tr>
+                <% end %>
+        </table>
+        <button type="submit" class="new">お気に入り登録</button>
+        <script>
+            window.onload = function() {
+                var rest;
+                $(".rest_radio").click(function() {
+                    var name = $(this).parent().siblings(".name",this).text();
+                    var url = $(this).parent().siblings().find('a').attr('href');
+                    var img = $(this).parent().siblings().find('img').attr('src');
+                    var rest = {"name": name,"url": url, "img": img};
+                    console.log(JSON.stringify(rest) + "が送信用のrestに格納されています。");
+                    $(".new").click(function() {
+                        $.ajax("/new",{
+                        type: "POST",
+                        data: {"rest": rest},
+                        datatype: 'json',
+                        success: function(msg){
+            			    document.write(msg);
+               		    }
+                        });
+                    });
+                });
+            }
+        </script>
+    </body>
+</html>

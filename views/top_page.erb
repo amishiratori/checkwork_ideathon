@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>Favorite Restaurant</title>
+    </head>
+    <body>
+        <form action="/search" method="post">
+            <input type="text" name="search" placeholder="キーワードで検索">
+            <input type="submit" value="検索">
+        </form>
+        <% @like.each do |list| %>
+        <a href=<%= list.url %>><%= list.name %></a><br>
+            <img src =<%= list.img %>><br>
+         <% end %>
+    </body>
+</html>
